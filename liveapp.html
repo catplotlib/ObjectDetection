@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+   <head>
+      <style>
+
+         body{
+         background:url("https://images.hdqwalls.com/download/minimalism-landscape-q3-1920x1200.jpg");
+         background-repeat: no-repeat;
+         background-size:auto;
+         }
+         
+      </style>
+      <meta charset="utf-8">
+      <title></title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+   </head>
+   <body>
+      <!-- Load TensorFlow.js. This is required to use MobileNet. -->
+      <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.1"> </script>
+      <!-- Load the MobileNet model. -->
+      <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"> </script>
+      <div class="page-header text-center">
+         <h1>Object Detection using Tensorflow.js</h1>
+      </div>
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-12">
+               <div class="panel panel-info">
+                  <div class="panel-body">
+                     <center>
+                        <video id="video" height="80%" width="80%" autoplay muted playsinline></video>
+                        <canvas id ="canvas" width="500" height="500" style="display:none;"></canvas>
+                        <div  id="status">Object Not Detected</div>
+                     </center>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script>
+         (async()=>{
+
+             const model=await mobilenet.load()
+             const video=document.getElementById('video')
+             const canvas=document.getElementById('canvas')
+             const context=canvas.getContext('2d')
+             const status=document.getElementById('status')
+
+
+           const stream=await navigator.mediaDevices.getUserMedia({
+             audio:false,
+             video: {
+               facingMode:'environment'
+             }
+           })
+
+           video.srcObject=stream
+
+           predict()
+
+           async function predict(){
+             context.drawImage(video,0,0,500,500)
+             const predictions=await model.classify(canvas)
+             if(predictions[0].probability>=0.5)
+             {
+               status.innerHTML=`Prediction: ${predictions[0].className} / ${predictions[0].probability}`
+               status.style.fontSize = "25px";
+             }
+
+             requestAnimationFrame(predict)
+           }
+             })()
+
+      </script>
+   </body>
+</html>
