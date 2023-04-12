@@ -1,7 +1,7 @@
 ## Object Detection using TensorFlow.js and MobileNet
 This project demonstrates a simple implementation of object detection in a web application using TensorFlow.js and the MobileNet pre-trained model. The application captures video from the user's device camera and continuously predicts the objects visible in the frame.
 
-<img src="https://user-images.githubusercontent.com/61319491/231349848-68a3d85d-8670-4913-933b-d23ff5c08192.jpeg" alt="work12" width="400" height="500">
+<img src="https://user-images.githubusercontent.com/61319491/231349848-68a3d85d-8670-4913-933b-d23ff5c08192.jpeg" alt="work12" width="400" height="400">
 
 
 ### Features
